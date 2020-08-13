@@ -35,6 +35,15 @@ jobs:
               # Build PDF doc
               - make latexpdf
 
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_PAGES
+  keep_history: true
+  local_dir: build/html/
+  on:
+    branch: master
+
 notifications:
   email:
     recipients:
