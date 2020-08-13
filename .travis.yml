@@ -1,0 +1,34 @@
+language: c
+os: linux
+dist:
+    - bionic
+
+addons:
+    apt:
+        update: true
+        packages:
+            - sphinx
+            - latexmk
+            - texlive-latex-recommended
+            - texlive-latex-extra
+            - python3-pip
+            - bash
+
+jobs:
+    include:
+        - stage: buid_doc
+          script:
+              - pip3 install -r requirements.txt
+              # Build HTML doc
+              - make html
+              # Build PDF doc
+              - make latexpdf
+
+notifications:
+  email:
+    recipients:
+      - leia@ssi.gouv.fr
+    on_success: never
+    on_failure: always
+    on_pull_requests: always
+
