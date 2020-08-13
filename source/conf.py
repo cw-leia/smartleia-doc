@@ -35,7 +35,7 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
     "sphinxcontrib.wavedrom",
-    "sphinxcontrib.spelling",
+    #"sphinxcontrib.spelling",
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
     # "autoapi.extension",

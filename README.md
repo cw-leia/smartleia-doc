@@ -16,7 +16,7 @@ rst2man (which is part of the python-docutils package on Debian)
 ```
 
 Some Python packages are also required and are compiled in the `requirements.txt` file
-(in addition to the setuptools package).
+(in addition to the wheel and setuptools package).
 
 On a Debian distro you can simply execute:
 
@@ -26,6 +26,10 @@ apt install latexmk
 apt install texlive-latex-recommended
 apt install texlive-latex-extra
 
+apt install python3-wheel
+apt install python3-setuptools
+
+pip3 install -U wheel
 pip3 install -U setuptools
 pip3 install -r requirements.txt
 ```

@@ -20,6 +20,7 @@ jobs:
     include:
         - stage: buid_doc
           script:
+              - pip3 install -U wheel
               - pip3 install -U setuptools
               - pip3 install -r requirements.txt
               # Build HTML doc
