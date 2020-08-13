@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/cw-leia/smartleia-doc.svg?branch=master)](https://travis-ci.com/cw-leia/smartleia-doc)
+
 # Smartleia package documentation 
 
 The current repository contains the smartleia python package documentation, and how
