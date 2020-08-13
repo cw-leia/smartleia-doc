@@ -5,6 +5,9 @@
 The current repository contains the smartleia python package documentation, and how
 to compile it.
 
+**NOTE**: the **smartleia** [Python package](https://github.com/cw-leia/smartleia.git) must
+be installed for the documentation to compile!
+
 ## Dependencies
 
 To generate the whole documentation, the following utilities need to be installed:
