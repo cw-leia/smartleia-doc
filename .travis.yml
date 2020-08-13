@@ -42,6 +42,7 @@ deploy:
   keep_history: true
   local_dir: build/html/
   repo: cw-leia/cw-leia.github.io
+  target_branch: master
   on:
     branch: master
 
