@@ -15,6 +15,9 @@ pdflatex
 rst2man (which is part of the python-docutils package on Debian)
 ```
 
+Some Python packages are also required and are compiled in the `requirements.txt` file
+(in addition to the setuptools package).
+
 On a Debian distro you can simply execute:
 
 ```sh
@@ -23,6 +26,7 @@ apt install latexmk
 apt install texlive-latex-recommended
 apt install texlive-latex-extra
 
+pip3 install -U setuptools
 pip3 install -r requirements.txt
 ```
 

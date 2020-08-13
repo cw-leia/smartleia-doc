@@ -12,12 +12,14 @@ addons:
             - texlive-latex-recommended
             - texlive-latex-extra
             - python3-pip
+            - python3-setuptools
             - bash
 
 jobs:
     include:
         - stage: buid_doc
           script:
+              - pip3 install -U setuptools
               - pip3 install -r requirements.txt
               # Build HTML doc
               - make html
