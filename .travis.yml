@@ -41,6 +41,7 @@ deploy:
   github_token: $GITHUB_PAGES
   keep_history: true
   local_dir: build/html/
+  repo: cw-leia/cw-leia.github.io
   on:
     branch: master
 
