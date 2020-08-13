@@ -7,10 +7,12 @@ addons:
     apt:
         update: true
         packages:
+            - pandoc
             - sphinx-common
             - latexmk
             - texlive-latex-recommended
             - texlive-latex-extra
+            - texlive-fonts-recommended
             - python3-pip
             - python3-wheel
             - python3-setuptools
@@ -23,8 +25,7 @@ jobs:
           script:
               # Install the smartleia Python package
               - git clone https://github.com/cw-leia/smartleia.git
-              - cd smartleia && pip3 install -r requirements.txt
-              - cd smartleia && python setup.py install
+              - cd smartleia && pip3 install -r requirements.txt && python3 setup.py install --user && cd ../
               # Take care of the documentation now
               - pip3 install -U wheel
               - pip3 install -U setuptools

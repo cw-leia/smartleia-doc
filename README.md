@@ -13,6 +13,7 @@ be installed for the documentation to compile!
 To generate the whole documentation, the following utilities need to be installed:
 
 ```
+pandoc
 sphinx
 pdflatex
 rst2man (which is part of the python-docutils package on Debian)
@@ -24,10 +25,12 @@ Some Python packages are also required and are compiled in the `requirements.txt
 On a Debian distro you can simply execute:
 
 ```sh
+apt install pandoc
 apt install sphinx
 apt install latexmk 
 apt install texlive-latex-recommended
 apt install texlive-latex-extra
+apt install texlive-fonts-recommended
 
 apt install python3-wheel
 apt install python3-setuptools
