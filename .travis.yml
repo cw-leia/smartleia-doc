@@ -12,6 +12,7 @@ addons:
             - texlive-latex-recommended
             - texlive-latex-extra
             - python3-pip
+            - python3-wheel
             - python3-setuptools
             - bash
 
