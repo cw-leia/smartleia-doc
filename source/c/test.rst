@@ -149,52 +149,15 @@ To define a command, one have to create a :c:type:`command_t`. It needs a simple
 Timers
 ======
 
-Blabla
+It is possible to get the timing of APDU commands (the time taken by the smart card
+to process the APDU command and send the response). We actually return two timers:
+``delta_t`` and ``delta_t_answer``. ``delta_t`` is the global time take by the response
+from the time we send the APDU until the last byte of the response. ``delta_t_answer`` is
+the time taken between sending the APDU and the acknowledgement of the smart card (usually 
+first byte of the response).
 
-
-.. c:macro:: TIMERS_DEPTH 
-
-        Constant to define the depth of a timer. TODO
-
-.. c:struct:: command_cb_args_t
-
-    Structure which handle the buffer send to a callback, and a buffer for the response of the callback.
-
-        .. c:member:: uint32_t buffer_size
-
-                Actual size of ``buffer``.
-
-        .. c:member:: uint8_t buffer[COMMANDS_BUFFER_MAX_LEN]
-
-                Buffer for the data which is send to the callback.
-
-        .. c:member:: uint32_t response_size
-
-                Actual size of the ``response`` buffer.
-
-        .. c:member:: uint8_t response[COMMANDS_BUFFER_MAX_LEN]
-
-                Buffer for the data produced by the callback.
-
-.. c:function:: int get_timers_params(uint8_t depth)
-
-        TODO
-
-.. c:function:: int timgers_get_times()
-
-        TODO
-
-.. c:function:: inline unsigned int get_cortex_m4_cycles(void)
-
-        TODO
-
-.. c:function:: inline uint64_t platform_get_microseconds_ticks(void)
-
-        Return the number of cycles of the CPU.
-
-.. c:function:: int timeit(uint8_t timen)
-
-        Increase the corresponding timer.
+The Timers are usually sent back for every command of the protocol in the response, with 
+zero values when timing such commands has no sense.
 
 
 Triggers
