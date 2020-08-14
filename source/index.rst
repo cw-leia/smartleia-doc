@@ -15,8 +15,6 @@ To experiment with LEIA, you can directly go to the :ref:`quickstart` section.
 
 **Any question or propositions on the project ?** Don't hesitate to use the LEIA mailing list : leia@ssi.gouv.fr
 
-   autoapi/index
-
 .. toctree::
    :caption: Table of Contents
    :name: mastertoc
