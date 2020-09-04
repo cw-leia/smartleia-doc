@@ -228,11 +228,9 @@ half duplex line.
 
 Configuring a trigger is quite simple in Python using the :c:type:`set_trigger_strategy` function:
 
-.. code-block:: python
+.. code:: bash
     import smartleia as sl
-
     reader = sl.LEIA('/dev/ttyACM1')
-
     reader.set_trigger_strategy(0, [sl.TriggerPoints.TRIG_GET_ATR_PRE, sl.TriggerPoints.TRIG_GET_ATR_POST, sl.TriggerPoints.TRIG_PRE_SEND_APDU_T1], delay=0, single=0)
 
 This sets up the trigging strategy at index 0 with three events: :c:type:`TRIG_GET_ATR_PRE`, :c:type:`TRIG_GET_ATR_POST` and :c:type:`TRIG_PRE_SEND_APDU_T1`, with a
@@ -243,9 +241,8 @@ time the trigger happens.
 
 At any time, it is possible to get the strategies states using :c:type:`get_trigger_strategy(index)`:
 
-.. code-block:: python
+.. code:: bash
     strat1 = reader.get_trigger_strategy(0)
-
     TriggerStrategy(single=0, delay=0, point_list=[<TriggerPoints.TRIG_GET_ATR_PRE: 1>, <TriggerPoints.TRIG_GET_ATR_POST: 2>, <TriggerPoints.TRIG_PRE_SEND_APDU_T1: 16>], point_list_trigged=[<TriggerPoints.TRIG_GET_ATR_PRE: 1>, <TriggerPoints.TRIG_GET_ATR_POST: 2>, <TriggerPoints.TRIG_PRE_SEND_APDU_T1: 16>], cnt_list_trigged=[1, 1, 3], event_time=[415121, 429329, 3038120])
 
 The :c:type:`point_list_trigged` list gives the events that have been triggered, the :c:type:`point_list_trigged` list provides counters of how many times each event
