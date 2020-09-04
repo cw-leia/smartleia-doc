@@ -7,9 +7,9 @@ Firmware Doc
 Protocol
 ========
 
-In order to communicate with LEIA, a simple communication protocol over uart is used. It permits to select a command, and execute it with specific data. The data produced by the command can finally be returned.
+In order to communicate with LEIA, a simple communication protocol over uart is used. It allows to select a command, and execute it with specific data. The data produced by the command can finally be returned.
 
-Only one data buffer :c:type:`command_cb_args_t` is used as the commands are executed one after one. As there is no need to keep trace of the result of the previous command, we can reuse the same buffer.
+Only one data buffer :c:type:`command_cb_args_t` is used as the commands are executed one after the other in a sequential fashion. As there is no need to keep track of the result of the previous command, we can reuse the same buffer. The maximum size of our APDU payloads is 16384, and is mainly due to maximum buffers size in the MCU SRAM.
 
 .. c:macro:: COMMANDS_BUFFER_MAX_LEN
 
@@ -163,55 +163,86 @@ zero values when timing such commands has no sense.
 Triggers
 ========
 
+On LEIA, there is a triggers handling mode where a dedicated PIN is put high and
+then low on some events. Actually, two PINs are used for triggers: an internal trigger
+dedicated to the LEIA board, and a ChipWhisperer trigger on the 20-pins connector
+to allow compatibility with the CW ecosystem.
 
-.. c:macro:: TRIGGER_DEPTH 
-.. c:macro:: STRATEGY_MAX
+The events on which we can configure a trigger are mainly related to ISO7816-3 steps.
+For instance, we can ask for a trigger just before the ATR (Answer To Reset) 
+of the smart card with :c:type:`TRIG_GET_ATR_PRE`, just after this ATR reception with
+:c:type:`TRIG_GET_ATR_POST`, etc. The list of events for which a trigger exists are the following: 
 
 .. c:macro:: TRIG_GET_ATR_PRE
+
+This trigger is placed at the beginning of the ATR reception.
+
 .. c:macro:: TRIG_GET_ATR_POST
 
-.. c:macro:: TRIG_PRE_SEND_APDU_SHORT_T0       
-.. c:macro:: TRIG_PRE_SEND_APDU_FRAGMENTED_T0  
-.. c:macro:: TRIG_PRE_SEND_APDU_T1             
-.. c:macro:: TRIG_POST_RESP_T0                 
+This trigger is placed at the end of the ATR reception.
+
+.. c:macro:: TRIG_PRE_SEND_APDU_SHORT_T0
+
+This trigger is placed at the beginning of T=0 short APDU send command.
+ 
+.. c:macro:: TRIG_PRE_SEND_APDU_FRAGMENTED_T0
+
+This trigger is placed at the beginning of T=0 fragmented (extended and case 4) APDU send
+command.
+
+.. c:macro:: TRIG_PRE_SEND_APDU_T1
+
+This trigger is placed at the beginning of T=1 APDU send command.
+
+.. c:macro:: TRIG_POST_RESP_T0
+
+This trigger is placed at the end of T=0 response coming from the smart card.
+
 .. c:macro:: TRIG_POST_RESP_T1                 
 
+This trigger is placed at the end of T=1 response coming from the smart card.
 
-.. c:macro:: TRIG_SEND_APDU_FRAGMENTED_T0_PRE
-.. c:macro:: TRIG_SEND_APDU_SIMPLE_T0_PRE
-.. c:macro:: TRIG_GET_RESP_FRAGMENTED_T0_PRE
-.. c:macro:: TRIG_GET_RESP_SIMPLE_T0_PRE
 
-.. c:macro:: TRIG_IRG_PUTC
+.. c:macro:: TRIG_PRE_SEND_APDU
+
+This trigger is placed at the beginning of APDU send command (either T=0 or T=1,
+this is an abstraction for :c:type:`TRIG_PRE_SEND_APDU_SHORT_T0` or :c:type:`TRIG_PRE_SEND_APDU_FRAGMENTED_T0`
+or :c:type:`TRIG_PRE_SEND_APDU_T1`.
+
+.. c:macro:: TRIG_POST_RESP
+
+This trigger is placed at the end of response coming from the smart card (either in
+T=0 or T=1). This is an abstraction for :c:type:`TRIG_POST_RESP_T0` or :c:type:`TRIG_POST_RESP_T1`.
+
+.. c:macro:: TRIG_IRQ_PUTC
+
+This trigger is placed each time a byte is sent to the smart card on the ISO7816-3
+half duplex line.
+
 .. c:macro:: TRIG_IRQ_GETC
 
-.. c:macro:: TRIG_PRE_RESP_T0
+This trigger is placed each time a byte is received from the smart card on the ISO7816-3
+half duplex line.
 
-.. c:struct:: trigger_strategy_t
 
-    Structure which handle the buffer send to a callback, and a buffer for the response of the callback.
 
-        .. c:member:: uint8_t size
+Configuring a trigger is quite simple in Python using the :c:type:`set_trigger_strategy` function:
+.. code:: python
+    import smartleia as sl
+    reader = sl.LEIA('/dev/ttyACM1')
+    reader.set_trigger_strategy(0, [sl.TriggerPoints.TRIG_GET_ATR_PRE, sl.TriggerPoints.TRIG_GET_ATR_POST, sl.TriggerPoints.TRIG_PRE_SEND_APDU_T1], delay=0, single=0)
 
-                TODO
+This sets up the trigging strategy at index 0 with three events: :c:type:`TRIG_GET_ATR_PRE`, :c:type:`TRIG_GET_ATR_POST` and :c:type:`TRIG_PRE_SEND_APDU_T1`, with a
+0 milliseconds delay and a permanent (not single) trigging style.
 
-        .. c:member:: uint32_t delay
+There are 4 possible strategies (index from 0 to 3) with a maximum of 10 events per strategy. The delay in milliseconds puts an offset in the
+time the trigger happens.
 
-                TODO
+At any time, it is possible to get the strategies states using :c:type:`get_trigger_strategy(index)`:
 
-        .. c:member:: uint32_t delay_cnt
+.. code:: python
+    strat1 = reader.get_trigger_strategy(0)
+    >>> strat1 = TriggerStrategy(single=0, delay=0, point_list=[<TriggerPoints.TRIG_GET_ATR_PRE: 1>, <TriggerPoints.TRIG_GET_ATR_POST: 2>, <TriggerPoints.TRIG_PRE_SEND_APDU_T1: 16>], point_list_trigged=[<TriggerPoints.TRIG_GET_ATR_PRE: 1>, <TriggerPoints.TRIG_GET_ATR_POST: 2>, <TriggerPoints.TRIG_PRE_SEND_APDU_T1: 16>], cnt_list_trigged=[1, 1, 3], event_time=[415121, 429329, 3038120])
 
-                TODO
-
-        .. c:member:: uint8_t list[TRIGGER_DEPTH]
-
-                TODO
-
-.. c:function:: static inline int cmp(trigger_strategy_t* s)
-
-        TODO
-
-.. c:function:: int trig(uint8_t trign)
-
-       Record the passage point.
-
+The :c:type:`point_list_trigged` list gives the events that have been triggered, the :c:type:`point_list_trigged` list provides counters of how many times each event
+has been triggered, and the :c:type:`event_time` shows an absolute time (using the reader internal clock) of when the last trigger of each event happened.
