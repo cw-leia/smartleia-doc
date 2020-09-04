@@ -230,7 +230,9 @@ Configuring a trigger is quite simple in Python using the :c:type:`set_trigger_s
 
 .. code-block:: python
     import smartleia as sl
+
     reader = sl.LEIA('/dev/ttyACM1')
+
     reader.set_trigger_strategy(0, [sl.TriggerPoints.TRIG_GET_ATR_PRE, sl.TriggerPoints.TRIG_GET_ATR_POST, sl.TriggerPoints.TRIG_PRE_SEND_APDU_T1], delay=0, single=0)
 
 This sets up the trigging strategy at index 0 with three events: :c:type:`TRIG_GET_ATR_PRE`, :c:type:`TRIG_GET_ATR_POST` and :c:type:`TRIG_PRE_SEND_APDU_T1`, with a
@@ -243,7 +245,8 @@ At any time, it is possible to get the strategies states using :c:type:`get_trig
 
 .. code-block:: python
     strat1 = reader.get_trigger_strategy(0)
-    >>> strat1 = TriggerStrategy(single=0, delay=0, point_list=[<TriggerPoints.TRIG_GET_ATR_PRE: 1>, <TriggerPoints.TRIG_GET_ATR_POST: 2>, <TriggerPoints.TRIG_PRE_SEND_APDU_T1: 16>], point_list_trigged=[<TriggerPoints.TRIG_GET_ATR_PRE: 1>, <TriggerPoints.TRIG_GET_ATR_POST: 2>, <TriggerPoints.TRIG_PRE_SEND_APDU_T1: 16>], cnt_list_trigged=[1, 1, 3], event_time=[415121, 429329, 3038120])
+
+    TriggerStrategy(single=0, delay=0, point_list=[<TriggerPoints.TRIG_GET_ATR_PRE: 1>, <TriggerPoints.TRIG_GET_ATR_POST: 2>, <TriggerPoints.TRIG_PRE_SEND_APDU_T1: 16>], point_list_trigged=[<TriggerPoints.TRIG_GET_ATR_PRE: 1>, <TriggerPoints.TRIG_GET_ATR_POST: 2>, <TriggerPoints.TRIG_PRE_SEND_APDU_T1: 16>], cnt_list_trigged=[1, 1, 3], event_time=[415121, 429329, 3038120])
 
 The :c:type:`point_list_trigged` list gives the events that have been triggered, the :c:type:`point_list_trigged` list provides counters of how many times each event
 has been triggered, and the :c:type:`event_time` shows an absolute time (using the reader internal clock) of when the last trigger of each event happened.
