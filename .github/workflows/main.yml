@@ -38,5 +38,5 @@ jobs:
           # Handle the documentation now
           if [ -f requirements.txt ]; then pip install --user -r requirements.txt; fi;
           make html;
-          make pdf;
+          make latexpdf;
 
