@@ -22,6 +22,12 @@ jobs:
       - name: compile doc
         shell: bash
         run: |
+          # Install some dependencies 
+          sudo apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended;
+          pip install --user wheel;
+          pip install --user setuptools;
+          pip install --user pandoc;
+          # Install the smartleia package for doc generation
           git clone `cat smartleia-repo.txt`;
           cd smartleia && pip install --user . && cd -;
           # Try to import the installed package
@@ -29,10 +35,6 @@ jobs:
           # Try to launch it
           python -m smartleia || if [ $? -eq 42 ]; then echo "Success (42 is a legitimate exit code)"; else exit 1; fi
           # Handle the documentation now
-          sudo apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended;
-          pip install --user wheel;
-          pip install --user setuptools;
-          pip install --user pandoc;
           if [ -f requirements.txt ]; then pip install --user -r requirements.txt; fi;
           make html;
           make pdf;
