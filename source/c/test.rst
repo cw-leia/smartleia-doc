@@ -240,7 +240,7 @@ This sets up the trigging strategy at index 0 with three events: :c:type:`TRIG_G
 There are 4 possible strategies (index from 0 to 3) with a maximum of 10 events per strategy. The delay in milliseconds puts an offset in the
 time the trigger happens.
 
-At any time, it is possible to get the strategies states using :c:type:`get_trigger_strategy(index)`:
+At any time, it is possible to get the strategies states using ``get_trigger_strategy(index)``:
 
 .. code-block:: python
 

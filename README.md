@@ -35,9 +35,9 @@ apt install texlive-fonts-recommended
 apt install python3-wheel
 apt install python3-setuptools
 
-pip3 install -U wheel
-pip3 install -U setuptools
-pip3 install -r requirements.txt
+pip3 install --user wheel
+pip3 install --user setuptools
+pip3 install --user -r requirements.txt
 ```
 
 Please note that `texlive` is mainly needed for the PDF output production.
