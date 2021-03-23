@@ -1,0 +1,38 @@
+name: leia-python-package-doc
+
+# Run this workflow every time a new commit pushed to your repository
+on: push
+
+jobs:
+  python_package_doc:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
+    steps:
+      # Checkout repository
+      - name: checkout repository
+        uses: actions/checkout@v2
+      # Run actions
+      - name: set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      # Install dependencies and test
+      - name: compile doc
+        shell: bash
+        run: |
+          git clone `cat smartleia-repo.txt`;
+          cd smartleia && pip install --user . && cd -;
+          # Try to import the installed package
+          python -c "import smartleia";
+          # Try to launch it
+          python -m smartleia || if [ $? -eq 42 ]; then echo "Success (42 is a legitimate exit code)"; else exit 1; fi
+          # Handle the documentation now
+          sudo apt-get install -y pandoc sphinx latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended;
+          pip install --user wheel;
+          pip install --user setuptools;
+          if [ -f requirements.txt ]; then pip install --user -r requirements.txt; fi;
+          make html;
+          make pdf;
+
