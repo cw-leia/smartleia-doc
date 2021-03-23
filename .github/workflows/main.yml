@@ -23,11 +23,10 @@ jobs:
         shell: bash
         run: |
           # Install some dependencies 
-          sudo apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended;
+          sudo apt-get install -y pandoc latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended;
           python -m pip install --upgrade pip;
           pip install --user wheel;
           pip install --user setuptools;
-          pip install --user pandoc;
           # Install the smartleia package for doc generation
           git clone `cat smartleia-repo.txt`;
           cd smartleia && pip install --user . && cd -;
