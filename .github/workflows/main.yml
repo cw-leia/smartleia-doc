@@ -31,6 +31,7 @@ jobs:
           # Install the smartleia package for doc generation
           git clone `cat smartleia-repo.txt`;
           cd smartleia && pip install --user . && cd -;
+          python -m pip install --upgrade pip;
           # Try to import the installed package
           python -c "import smartleia";
           # Try to launch it
