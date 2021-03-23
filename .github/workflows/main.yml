@@ -29,7 +29,7 @@ jobs:
           # Try to launch it
           python -m smartleia || if [ $? -eq 42 ]; then echo "Success (42 is a legitimate exit code)"; else exit 1; fi
           # Handle the documentation now
-          sudo apt-get install -y pandoc sphinx latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended;
+          sudo apt-get install -y pandoc latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended;
           pip install --user wheel;
           pip install --user setuptools;
           if [ -f requirements.txt ]; then pip install --user -r requirements.txt; fi;

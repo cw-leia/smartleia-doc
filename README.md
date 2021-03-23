@@ -23,15 +23,9 @@ Some Python packages are also required and are compiled in the `requirements.txt
 On a Debian distro you can simply execute:
 
 ```sh
-apt install pandoc
-apt install sphinx
-apt install latexmk 
-apt install texlive-latex-recommended
-apt install texlive-latex-extra
-apt install texlive-fonts-recommended
+apt install pandoc latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
 
-apt install python3-wheel
-apt install python3-setuptools
+apt install python3-wheel python3-setuptools
 
 pip3 install --user wheel
 pip3 install --user setuptools
