@@ -45,7 +45,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           repository-name: cw-leia/cw-leia.github.io
-          token: $GITHUB_PAGES
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: master # The branch the action should deploy to.
           folder: build/html/ # The folder the action should deploy.
           target-folder: ./
