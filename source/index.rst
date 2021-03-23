@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to LEIA's documentation!
-================================
+Welcome to LEIA's documentation (last compiled: |today|)!
+=========================================================
 
 Welcome to the LEIA quick start guide. The philosophy, main purpose
 and features of the project are summarized in the :ref:`target` section.
