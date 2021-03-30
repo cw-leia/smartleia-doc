@@ -37,6 +37,7 @@ jobs:
           python -m smartleia || if [ $? -eq 42 ]; then echo "Success (42 is a legitimate exit code)"; else exit 1; fi
           # Handle the documentation now
           if [ -f requirements.txt ]; then pip install --user -r requirements.txt; fi;
+          source /etc/skel/.profile;
           make html;
           make latexpdf;
           touch build/html/.nojekyll;
@@ -46,5 +47,6 @@ jobs:
         with:
           repository-name: cw-leia/cw-leia.github.io
           token: ${{ secrets.LEIA_DOC }}
-          branch: master # The branch the action should deploy to.
-          folder: build/html # The folder the action should deploy.
+          branch: master # The branch the action should deploy to
+          folder: build/html # The folder the action should deploy
+          
